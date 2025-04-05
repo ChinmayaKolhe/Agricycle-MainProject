@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3308
--- Generation Time: Apr 05, 2025 at 06:36 PM
+-- Generation Time: Apr 05, 2025 at 10:23 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -62,7 +62,8 @@ CREATE TABLE `bank_policies` (
 INSERT INTO `bank_policies` (`id`, `agent_id`, `name`, `pdf_path`, `bank_link`, `created_at`) VALUES
 (5, 2, 'Maan Dhan Yojana', 'uploads/policies/policy_67f0d7c6318270.83178529.pdf', 'https://translate.google.com/translate?u=https://maandhan.in/&hl=hi&sl=en&tl=hi&client=srp', '2025-04-05 07:12:06'),
 (6, 2, 'Kisan Credit Card', 'uploads/policies/policy_67f0dadeafbab8.86197405.pdf', 'https://www.myscheme.gov.in/schemes/kcc', '2025-04-05 07:25:18'),
-(7, 1, 'kisan credit card', 'uploads/policies/policy_67f11ad0908880.86541618.pdf', 'https://www.myscheme.gov.in/schemes/kcc', '2025-04-05 11:58:08');
+(7, 1, 'kisan credit card', 'uploads/policies/policy_67f11ad0908880.86541618.pdf', 'https://www.myscheme.gov.in/schemes/kcc', '2025-04-05 11:58:08'),
+(8, 1, 'Bank Of India', 'uploads/policies/policy_67f1602c140ed6.62650301.pdf', 'https://bankofindia.co.in/policy-guidelines', '2025-04-05 16:54:04');
 
 -- --------------------------------------------------------
 
@@ -89,7 +90,10 @@ CREATE TABLE `buyers` (
 INSERT INTO `buyers` (`id`, `email`, `password`, `name`, `phone`, `company`, `aadhaar_path`, `verification_requested`, `is_verified`) VALUES
 (1, 'chinmayakolhe2005@gmail.com', '$2y$10$k5fbleSAsSACOzKMa.W/bufj73GaSAxRaWbonhVvC16Iic5UVBShm', 'Chinmaya Bhushan Kolhe', '8999316982', 'Code crafters', NULL, 0, 0),
 (2, 'kirti@gmail.com', '$2y$10$BWedCgB0dbprjP7HT3NylODaC16kuo7ETtGhMVPyPOquygz1QpltG', 'Kirti Kolhe', '4567895678', 'Code Fast', NULL, 0, 0),
-(3, 'yamini@gmail.com', '$2y$10$HjtxA.ODlPEMzZ7GQ6Z5qOmXNr.H6r/zXu.Vso51eV0NS2TbKh2Ze', 'Yamini Mahesh Bhole', '7856783423', 'Waste buyers', 'uploads/aadhaar_buyers/buyer_3_AdharCard.pdf', 0, 1);
+(3, 'yamini@gmail.com', '$2y$10$HjtxA.ODlPEMzZ7GQ6Z5qOmXNr.H6r/zXu.Vso51eV0NS2TbKh2Ze', 'Yamini Mahesh Bhole', '7856783423', 'Waste buyers', 'uploads/aadhaar_buyers/buyer_3_AdharCard.pdf', 0, 1),
+(5, 'virat@gmail.com', '$2y$10$H0XUBMPFJ/8ZdG1/5K73tujnKtsg/nt.kgZrR0KA0t24BZ0KHgIUC', 'Virat Kohli', '9969897856', 'Indian EcoCoders', NULL, 0, 0),
+(6, 'rakhi@pccoepune.org', '$2y$10$HRHfCL7m2ng56eBkegl0xO8a4B/72PAJaYkB/9Z0TOuPwa6D6A0qy', 'Rakhi Pagar', '6789567845', 'Indian EcoCoders', NULL, 0, 0),
+(7, 'rohit@gmail.com', '$2y$10$57N1wqD8sOAG516lvtV.cuMCLX/iSQjrdqNgeJGKW59UCuVtwCBFq', 'Rohit Sharma', '8956784567', 'Mumbai wasters', 'uploads/aadhaar_buyers/buyer_7_AdharCard.pdf', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -158,7 +162,7 @@ CREATE TABLE `farmers` (
 --
 
 INSERT INTO `farmers` (`id`, `email`, `password`, `name`, `phone`, `location`, `is_verified`, `aadhaar_path`, `verification_requested`) VALUES
-(1, 'bhushan@gmail.com', '$2y$10$b2GFmLBx5OxTQtZMlUhB/.Pg0giL/dWtOKxui6lvrJa8T8EEc8DCy', 'Bhushan Kolhe', '9969897856', 'Pune', 0, NULL, 0),
+(1, 'bhushan@gmail.com', '$2y$10$b2GFmLBx5OxTQtZMlUhB/.Pg0giL/dWtOKxui6lvrJa8T8EEc8DCy', 'Bhushan Kolhe', '9969897856', 'Pune', 1, '../uploads/aadhaar/AdharCard.pdf', 0),
 (2, 'chinmaya.kolhe24@pccoepune.org', '$2y$10$Eju2w3lKHDG8ixaReKbCi.3MlJktW4GFX.750xsJysW9fyqje38YG', 'Chinmaya Kolhe', '8999316982', 'Jalgaon', 1, '../uploads/aadhaar/AdharCard.pdf', 0),
 (3, 'lubda@gmail.com', '$2y$10$SDLeesLLTDPXAhLCpaScBukXFGTEYvysFNtWksuT2xbBv2vZfTzju', 'lubdha chaudhari', '7890678978', 'Mumbai', 1, '../uploads/aadhaar/AdharCard.pdf', 0);
 
@@ -207,12 +211,7 @@ CREATE TABLE `marketplace_items` (
 --
 
 INSERT INTO `marketplace_items` (`id`, `user_id`, `photo_path`, `item_name`, `description`, `price`, `quantity`, `contact_info`, `created_at`) VALUES
-(3, 2, NULL, 'Animal Manure', 'animal manure available', 400.00, 1, 'abc@gmail.com', '2025-04-04 08:08:39'),
-(5, 1, NULL, 'pest', 'i want to sell pest', 400.00, 46, '7867895678', '2025-04-05 09:39:18'),
-(6, 1, NULL, 'weeds', 'weeds available', 300.00, 9, '7856745111', '2025-04-05 12:38:21'),
-(7, 1, NULL, 'Animal Manure', 'vgs', 500.00, 36, '7890678967', '2025-04-05 12:52:57'),
-(8, 2, 'uploads/wasteimg/waste_67f14b15772b5.png', 'pest', 'fhkjsfjdsk', 4545.00, 56, 'abc@gmail.com', '2025-04-05 15:24:05'),
-(9, 2, 'uploads/wasteimg/waste_67f14b5d79fa6.png', 'Animal Manure', 'manure is available', 590.00, 50, 'abc@gmail.com', '2025-04-05 15:25:17');
+(10, 2, 'uploads/wasteimg/waste_67f16fcdbc17c.jpeg', 'Food Waste', 'Food waste is available you can buy', 250.00, 12, '7867908978', '2025-04-05 18:00:45');
 
 -- --------------------------------------------------------
 
@@ -230,14 +229,6 @@ CREATE TABLE `marketplace_orders` (
   `status` enum('Pending','Completed','Cancelled') DEFAULT 'Pending',
   `order_date` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `marketplace_orders`
---
-
-INSERT INTO `marketplace_orders` (`id`, `buyer_id`, `seller_id`, `item_id`, `quantity`, `total_price`, `status`, `order_date`) VALUES
-(3, 1, 2, 3, 0, 0.00, 'Pending', '2025-04-04 12:58:25'),
-(4, 1, 2, 3, 0, 0.00, 'Pending', '2025-04-04 13:17:50');
 
 -- --------------------------------------------------------
 
@@ -282,7 +273,8 @@ INSERT INTO `orders` (`id`, `buyer_id`, `item_id`, `quantity`, `total_price`, `c
 (0, 1, 5, 5, 2000.00, '2025-04-05 12:36:02'),
 (0, 1, 5, 5, 2000.00, '2025-04-05 12:36:10'),
 (0, 1, 6, 1, 300.00, '2025-04-05 12:40:38'),
-(0, 1, 7, 4, 2000.00, '2025-04-05 12:56:03');
+(0, 1, 7, 4, 2000.00, '2025-04-05 12:56:03'),
+(0, 7, 8, 6, 27270.00, '2025-04-05 17:57:01');
 
 -- --------------------------------------------------------
 
@@ -327,9 +319,11 @@ CREATE TABLE `policy_requests` (
 --
 
 INSERT INTO `policy_requests` (`id`, `farmer_id`, `policy_id`, `agent_id`, `status`, `applied_at`) VALUES
-(9, 2, 5, 2, 'Pending', '2025-04-05 10:00:44'),
-(10, 2, 6, 2, 'Pending', '2025-04-05 10:04:21'),
-(11, 1, 7, 1, 'Approved', '2025-04-05 11:58:29');
+(11, 1, 7, 1, 'Approved', '2025-04-05 11:58:29'),
+(12, 2, 7, 1, 'Approved', '2025-04-05 16:46:48'),
+(13, 2, 8, 1, 'Approved', '2025-04-05 16:54:30'),
+(14, 3, 7, 1, 'Rejected', '2025-04-05 16:56:56'),
+(15, 3, 8, 1, 'Approved', '2025-04-05 16:57:01');
 
 -- --------------------------------------------------------
 
@@ -520,13 +514,13 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `bank_policies`
 --
 ALTER TABLE `bank_policies`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `buyers`
 --
 ALTER TABLE `buyers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `community_comments`
@@ -556,7 +550,7 @@ ALTER TABLE `insurance_agents`
 -- AUTO_INCREMENT for table `marketplace_items`
 --
 ALTER TABLE `marketplace_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `marketplace_orders`
@@ -580,7 +574,7 @@ ALTER TABLE `pickup_requests`
 -- AUTO_INCREMENT for table `policy_requests`
 --
 ALTER TABLE `policy_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `users`
