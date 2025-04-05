@@ -24,6 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $admin = checkCredentials($conn, "admins", $email, $password);
     if ($admin) {
         $_SESSION['user_id'] = $admin['id'];
+        $_SESSION['username'] = $admin['name']; // Add this
         $_SESSION['role'] = 'admin';
         header("Location: ../dashboard/admin_dashboard.php");
         exit();
@@ -33,6 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $farmer = checkCredentials($conn, "farmers", $email, $password);
     if ($farmer) {
         $_SESSION['user_id'] = $farmer['id'];
+        $_SESSION['username'] = $farmer['name']; // Add this
         $_SESSION['role'] = 'farmer';
         header("Location: ../dashboard/farmer_dashboard.php");
         exit();
@@ -42,6 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $buyer = checkCredentials($conn, "buyers", $email, $password);
     if ($buyer) {
         $_SESSION['user_id'] = $buyer['id'];
+        $_SESSION['username'] = $buyer['name']; // Add this
         $_SESSION['role'] = 'buyer';
         header("Location: ../dashboard/buyer_dashboard.php");
         exit();
@@ -51,6 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $agent = checkCredentials($conn, "insurance_agents", $email, $password);
     if ($agent) {
         $_SESSION['user_id'] = $agent['id'];
+        $_SESSION['username'] = $agent['name']; // Add this
         $_SESSION['role'] = 'insurance_agent';
         header("Location: ../dashboard/insurance_agent_dashboard.php");
         exit();
@@ -59,6 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $error = "Invalid Email or Password!";
 }
 ?>
+
 
 
 

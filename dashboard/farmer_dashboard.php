@@ -84,7 +84,7 @@ $result = mysqli_query($conn, $notifications_query);
                     <i class="bi bi-people-fill display-4 text-warning"></i>
                     <h5 class="card-title mt-3">Community Forum</h5>
                     <p class="card-text">Connect with other farmers and buyers.</p>
-                    <a href="../community/forum.php" class="btn btn-outline-warning">Join Community</a>
+                    <a href="../community/community_forum.php" class="btn btn-outline-warning">Join Community</a>
                 </div>
             </div>
         </div>

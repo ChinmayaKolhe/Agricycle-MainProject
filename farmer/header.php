@@ -16,7 +16,7 @@
                     <a class="nav-link" href="../marketplace/index.php"><i class="bi bi-shop"></i> Marketplace</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../community/forum.php"><i class="bi bi-people"></i> Community</a>
+                    <a class="nav-link" href="../community/community_forum.php"><i class="bi bi-people"></i> Community</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="../auth/logout.php"><i class="bi bi-box-arrow-right"></i> Logout</a>

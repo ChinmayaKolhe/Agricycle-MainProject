@@ -66,7 +66,24 @@ $items = $result->fetch_all(MYSQLI_ASSOC);
     </style>
 </head>
 <body>
-
+<nav class="navbar navbar-expand-lg navbar-dark bg-success">
+  <div class="container">
+    <a class="navbar-brand" href="index.php">AgriCycle</a>
+    <div class="collapse navbar-collapse justify-content-end">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" href="dashboard/buyer_dashboard.php">🏠 Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="marketplace/index.php">🛒 Marketplace</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-danger" href="auth/logout.php">🚪 Logout</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
 <div class="wishlist-container">
     <h2 class="text-center text-success">Your Wishlist</h2>
 
