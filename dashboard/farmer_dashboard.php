@@ -85,15 +85,7 @@ if ($chart_result && mysqli_num_rows($chart_result) > 0) {
 
     <!-- Chart + Schemes -->
     <div class="row mt-4">
-        <div class="col-md-6">
-            <div class="card shadow-lg border-0">
-                <div class="card-body">
-                    <h5 class="card-title">Waste Statistics</h5>
-                    <canvas id="wasteChart"></canvas>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
+    <div class="col-md-6">
             <div class="card shadow-lg border-0">
                 <div class="card-body">
                     <h5 class="card-title">Government Schemes</h5>
@@ -102,6 +94,51 @@ if ($chart_result && mysqli_num_rows($chart_result) > 0) {
                 </div>
             </div>
         </div>
+    <div class="container my-5">
+  <div class="card shadow-lg border-0 p-4">
+    <h3 class="text-success mb-4">🌿 Agri-Waste Management Tips for Farmers</h3>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="alert alert-info shadow-sm mb-3">
+          <strong>1. Compost Organic Waste:</strong> Convert crop residues, leaves, and cow dung into nutrient-rich compost to improve soil quality.
+        </div>
+        <div class="alert alert-info shadow-sm mb-3">
+          <strong>2. Reuse Crop Residue:</strong> Use crop leftovers like sugarcane leaves or wheat stalks as mulch or livestock bedding instead of burning them.
+        </div>
+        <div class="alert alert-info shadow-sm mb-3">
+          <strong>3. Avoid Burning Waste:</strong> Burning agri-waste causes air pollution and loss of soil nutrients. Use eco-friendly alternatives like biogas units.
+        </div>
+        <div class="alert alert-info shadow-sm mb-3">
+          <strong>4. Separate Plastic Waste:</strong> Keep fertilizer bags, wrappers, and pipes separately for recycling pickup.
+        </div>
+        <div class="alert alert-info shadow-sm mb-3">
+          <strong>5. Dry and Store Agri Waste:</strong> Keep your dry waste in one place to make it easy for pickup and recycling.
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="alert alert-info shadow-sm mb-3">
+          <strong>6. E-Waste on Farm?</strong> Old electric pumps, batteries, or sensors should be donated via e-waste pickup request.
+        </div>
+        <div class="alert alert-info shadow-sm mb-3">
+          <strong>7. Recycle Plastic Drums & Cans:</strong> Don't throw pesticide containers — clean & send them for recycling.
+        </div>
+        <div class="alert alert-info shadow-sm mb-3">
+          <strong>8. Earn Points for Recycling:</strong> You may get cashback or rewards for verified agri-waste pickups. Stay tuned on your dashboard!
+        </div>
+        <div class="alert alert-info shadow-sm mb-3">
+          <strong>9. Share with Community:</strong> Post your agri-waste reuse ideas in the community forum to inspire others.
+        </div>
+        <div class="alert alert-info shadow-sm mb-3">
+          <strong>10. Use the AI Classifier:</strong> Upload agri-waste photos and let our system tell you what's recyclable!
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+        
     </div>
 </div>
 

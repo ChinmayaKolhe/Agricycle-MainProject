@@ -79,7 +79,33 @@ $result = mysqli_stmt_get_result($stmt);
     }
   </style>
 </head>
-<body>
+<body><nav class="navbar navbar-expand-lg bg-white shadow-sm rounded mb-4 px-4 py-3">
+  <div class="container-fluid">
+    <a class="navbar-brand text-success fw-bold" href="#">AgriCycle Panel</a>
+    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+      <li class="nav-item me-3">
+        <a class="nav-link" href="../dashboard/insurance_agent_dashboard.php">
+          <i class="fa-solid fa-chart-line me-1"></i> Dashboard
+        </a>
+      </li>
+      <li class="nav-item me-3">
+        <a class="nav-link" href="../insurance_agent/policy_request.php">
+          <i class="fa-solid fa-file-circle-plus me-1"></i> Policy Requests
+        </a>
+      </li>
+      <li class="nav-item me-3">
+        <a class="nav-link" href="../insurance_agent/bank_policies.php">
+          <i class="fa-solid fa-file-shield me-1"></i> Bank Policies
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-danger" href="../auth/logout.php">
+          <i class="fa-solid fa-right-from-bracket me-1"></i> Logout
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
 
 <div class="main-content">
   <h2 class="mb-4">Policy Requests</h2>
