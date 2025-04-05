@@ -9,12 +9,11 @@ include '../farmer/header.php';
 
 $farmer_id = $_SESSION['user_id'];
 
-// Fetch unread notifications for the farmer
-$notifications_query = "SELECT * FROM notifications WHERE user_id = '$farmer_id' AND is_read = FALSE ORDER BY created_at DESC";
-$result = mysqli_query($conn, $notifications_query);
+// Fetch unread notifications
+$notif_query = "SELECT * FROM notifications WHERE user_id = '$farmer_id' AND is_read = 0 ORDER BY created_at DESC";
+$result = mysqli_query($conn, $notif_query);
 
-// Initialize chart data
-// Initialize chart data for agricultural waste types
+// Waste chart data
 $waste_data = [
     'Crop Residue' => 0,
     'Animal Manure' => 0,
@@ -25,7 +24,6 @@ $waste_data = [
     'Weeds & Grass' => 0
 ];
 
-// Fetch waste quantities grouped by type for this farmer
 $chart_query = "SELECT waste_type, SUM(quantity) as total_quantity FROM waste_listings WHERE farmer_id = $farmer_id GROUP BY waste_type";
 $chart_result = mysqli_query($conn, $chart_query);
 if ($chart_result && mysqli_num_rows($chart_result) > 0) {
@@ -42,54 +40,50 @@ if ($chart_result && mysqli_num_rows($chart_result) > 0) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Farmer Dashboard | AgriCycle</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body>
-
 <div class="container mt-4">
     <h2 class="text-success">Welcome, Farmer!</h2>
     <p class="text-muted">Manage your waste, explore the marketplace, and connect with the community.</p>
 
+
     <!-- Dashboard Cards -->
-    <div class="row g-4 mt-4">
+    <div class="row g-4 mt-2">
         <div class="col-md-4">
-            <div class="card shadow-lg border-0">
-                <div class="card-body text-center">
+            <div class="card shadow-lg border-0 text-center">
+                <div class="card-body">
                     <i class="bi bi-recycle display-4 text-success"></i>
                     <h5 class="card-title mt-3">Waste Listings</h5>
-                    <p class="card-text">View and manage your waste listings.</p>
                     <a href="../farmer/waste_requests.php" class="btn btn-outline-success">Go to Waste Requests</a>
                 </div>
             </div>
         </div>
 
         <div class="col-md-4">
-            <div class="card shadow-lg border-0">
-                <div class="card-body text-center">
+            <div class="card shadow-lg border-0 text-center">
+                <div class="card-body">
                     <i class="bi bi-truck display-4 text-primary"></i>
                     <h5 class="card-title mt-3">Pickup Requests</h5>
-                    <p class="card-text">Schedule and track waste pickup services.</p>
                     <a href="../farmer/pickup_requests.php" class="btn btn-outline-primary">Manage Pickups</a>
                 </div>
             </div>
         </div>
 
         <div class="col-md-4">
-            <div class="card shadow-lg border-0">
-                <div class="card-body text-center">
+            <div class="card shadow-lg border-0 text-center">
+                <div class="card-body">
                     <i class="bi bi-people-fill display-4 text-warning"></i>
                     <h5 class="card-title mt-3">Community Forum</h5>
-                    <p class="card-text">Connect with other farmers and buyers.</p>
                     <a href="../community/community_forum.php" class="btn btn-outline-warning">Join Community</a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Waste Statistics -->
+    <!-- Chart + Schemes -->
     <div class="row mt-4">
         <div class="col-md-6">
             <div class="card shadow-lg border-0">
@@ -99,7 +93,6 @@ if ($chart_result && mysqli_num_rows($chart_result) > 0) {
                 </div>
             </div>
         </div>
-
         <div class="col-md-6">
             <div class="card shadow-lg border-0">
                 <div class="card-body">
@@ -120,13 +113,8 @@ new Chart(ctx, {
     type: 'bar',
     data: {
         labels: [
-            'Crop Residue',
-            'Animal Manure',
-            'Fruit and Vegetable Waste',
-            'Agrochemical Containers',
-            'Plastic Mulch',
-            'Spoiled Grain',
-            'Weeds & Grass'
+            'Crop Residue', 'Animal Manure', 'Fruit and Vegetable Waste',
+            'Agrochemical Containers', 'Plastic Mulch', 'Spoiled Grain', 'Weeds & Grass'
         ],
         datasets: [{
             label: 'Waste in Kg',
@@ -139,37 +127,23 @@ new Chart(ctx, {
                 <?= $waste_data['Spoiled Grain'] ?>,
                 <?= $waste_data['Weeds & Grass'] ?>
             ],
-            backgroundColor: [
-                '#4caf50',
-                '#795548',
-                '#ff9800',
-                '#9c27b0',
-                '#2196f3',
-                '#f44336',
-                '#8bc34a'
-            ]
+            backgroundColor: ['#4caf50','#795548','#ff9800','#9c27b0','#2196f3','#f44336','#8bc34a']
         }]
     },
     options: {
         responsive: true,
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
+        scales: { y: { beginAtZero: true } }
     }
 });
 
-
-// Mark notifications as read using AJAX
-document.getElementById('markAllRead')?.addEventListener('click', function() {
+// AJAX Mark All Notifications as Read
+document.getElementById('markAllRead')?.addEventListener('click', () => {
     fetch('mark_notifications_read.php', { method: 'POST' })
     .then(response => response.text())
-    .then(data => {
+    .then(() => {
         document.getElementById('notificationList').innerHTML = '<p>All notifications marked as read.</p>';
     });
 });
 </script>
-
 </body>
 </html>

@@ -8,12 +8,7 @@ function checkCredentials($conn, $table, $email, $password) {
     mysqli_stmt_bind_param($stmt, "s", $email);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
-    $user = mysqli_fetch_assoc($result);
-
-    if ($user && password_verify($password, $user['password'])) {
-        return $user;
-    }
-    return false;
+    return mysqli_fetch_assoc($result);
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -22,9 +17,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Check Admin
     $admin = checkCredentials($conn, "admins", $email, $password);
-    if ($admin) {
+    if ($admin && password_verify($password, $admin['password'])) {
         $_SESSION['user_id'] = $admin['id'];
-        $_SESSION['username'] = $admin['name']; // Add this
+        $_SESSION['username'] = $admin['name'];
         $_SESSION['role'] = 'admin';
         header("Location: ../dashboard/admin_dashboard.php");
         exit();
@@ -32,19 +27,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Check Farmer
     $farmer = checkCredentials($conn, "farmers", $email, $password);
-    if ($farmer) {
-        $_SESSION['user_id'] = $farmer['id'];
-        $_SESSION['username'] = $farmer['name']; // Add this
-        $_SESSION['role'] = 'farmer';
-        header("Location: ../dashboard/farmer_dashboard.php");
-        exit();
+    if ($farmer && password_verify($password, $farmer['password'])) {
+        if ($farmer['is_verified'] == 1) {
+            $_SESSION['user_id'] = $farmer['id'];
+            $_SESSION['username'] = $farmer['name'];
+            $_SESSION['role'] = 'farmer';
+            header("Location: ../dashboard/farmer_dashboard.php");
+            exit();
+        } else {
+            $_SESSION['user_id'] = $farmer['id'];
+            $_SESSION['role'] = 'farmer_pending';
+            header("Location: verify_aadhaar.php");
+            exit();
+        }
     }
 
     // Check Buyer
     $buyer = checkCredentials($conn, "buyers", $email, $password);
-    if ($buyer) {
+    if ($buyer && password_verify($password, $buyer['password'])) {
         $_SESSION['user_id'] = $buyer['id'];
-        $_SESSION['username'] = $buyer['name']; // Add this
+        $_SESSION['username'] = $buyer['name'];
         $_SESSION['role'] = 'buyer';
         header("Location: ../dashboard/buyer_dashboard.php");
         exit();
@@ -52,9 +54,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Check Insurance Agent
     $agent = checkCredentials($conn, "insurance_agents", $email, $password);
-    if ($agent) {
+    if ($agent && password_verify($password, $agent['password'])) {
         $_SESSION['user_id'] = $agent['id'];
-        $_SESSION['username'] = $agent['name']; // Add this
+        $_SESSION['username'] = $agent['name'];
         $_SESSION['role'] = 'insurance_agent';
         header("Location: ../dashboard/insurance_agent_dashboard.php");
         exit();
@@ -63,7 +65,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $error = "Invalid Email or Password!";
 }
 ?>
-
 
 
 

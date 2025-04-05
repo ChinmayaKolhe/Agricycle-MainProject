@@ -68,6 +68,9 @@ if (!isset($_SESSION['user_id']) || !in_array($_SESSION['role'], ['buyer', 'farm
                     <a class="nav-link" href="../wishlist.php"><i class="bi bi-heart"></i> Wishlist</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="../buyer/buyer.php"><i class="bi bi-heart"></i> Chatbot</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="../orders.php"><i class="bi bi-bag"></i> Orders</a>
                 </li>
                 <li class="nav-item">

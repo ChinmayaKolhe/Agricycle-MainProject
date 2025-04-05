@@ -1,7 +1,7 @@
 <?php
 session_start();
 include '../config/db_connect.php';
-
+include '../marketplace/navbar.php';
 // Fetch marketplace items with quantity > 0 only
 $query = "SELECT id, item_name, description, price, quantity, contact_info, user_id AS seller_id 
           FROM marketplace_items 

@@ -36,6 +36,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                      VALUES ('$buyer_id', '$item_id', '$quantity', '$total_cost')";
     mysqli_query($conn, $insert_query);
 
+    // ✅ Fetch farmer email using user_id from marketplace_items
+    $farmer_id = $item['user_id']; // 👈 this is correct
+    $farmer_query = "SELECT email FROM farmers WHERE id = '$farmer_id'";
+    $farmer_result = mysqli_query($conn, $farmer_query);
+    $farmer = mysqli_fetch_assoc($farmer_result);
+
+    if ($farmer) {
+        $farmer_email = $farmer['email'];
+        $item_name = $item['item_name'];
+        $message = "Your item '<b>$item_name</b>' has been purchased. Quantity: $quantity. Total: ₹$total_cost.";
+
+        // Insert notification
+        $notif_query = "INSERT INTO notifications (user_email, message, is_read, created_at) 
+                        VALUES ('$farmer_email', '$message', 0, NOW())";
+        mysqli_query($conn, $notif_query);
+    }
+
     // Generate invoice text
     $invoice = "✅ Purchase Confirmed!\n\n";
     $invoice .= "Item: " . $item['item_name'] . "\n";
