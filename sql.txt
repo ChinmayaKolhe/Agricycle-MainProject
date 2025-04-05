@@ -1,0 +1,35 @@
+✅ Step 1: Database Tables Structure
+1. admins Table
+
+CREATE TABLE admins (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE farmers (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    name VARCHAR(100),
+    phone VARCHAR(15),
+    location VARCHAR(100)
+);
+
+CREATE TABLE buyers (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    name VARCHAR(100),
+    phone VARCHAR(15),
+    company VARCHAR(100)
+);
+
+CREATE TABLE insurance_agents (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    name VARCHAR(100),
+    agency VARCHAR(100),
+    phone VARCHAR(15)
+);
