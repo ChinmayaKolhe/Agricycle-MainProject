@@ -1,10 +1,21 @@
 <?php
 session_start();
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'buyer') {
+if (!isset($_SESSION['user_id']) || ($_SESSION['role'] !== 'buyer_pending' && $_SESSION['role'] !== 'buyer')) {
     header("Location: ../auth/login.php");
     exit();
 }
+
 include '../config/db_connect.php';
+// Redirect verified buyers away from Aadhaar page
+$user_id = $_SESSION['user_id'];
+$result = mysqli_query($conn, "SELECT is_verified FROM buyers WHERE id = $user_id");
+$row = mysqli_fetch_assoc($result);
+
+if ($row['is_verified'] == 1) {
+    $_SESSION['role'] = 'buyer';
+    header("Location: ../dashboard/buyer_dashboard.php");
+    exit();
+}
 
 $user_id = $_SESSION['user_id'];
 $message = "";

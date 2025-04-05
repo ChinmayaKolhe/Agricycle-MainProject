@@ -45,11 +45,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Check Buyer
     $buyer = checkCredentials($conn, "buyers", $email, $password);
     if ($buyer && password_verify($password, $buyer['password'])) {
-        $_SESSION['user_id'] = $buyer['id'];
-        $_SESSION['username'] = $buyer['name'];
-        $_SESSION['role'] = 'buyer';
-        header("Location: ../dashboard/buyer_dashboard.php");
-        exit();
+        if ($buyer['is_verified'] == 1) {
+            $_SESSION['user_id'] = $buyer['id'];
+            $_SESSION['username'] = $buyer['name'];
+            $_SESSION['role'] = 'buyer';
+            header("Location: ../dashboard/buyer_dashboard.php");
+            exit();
+        } else {
+            $_SESSION['user_id'] = $buyer['id'];
+            $_SESSION['role'] = 'buyer_pending';
+            header("Location: verify_aadhaar_buyer.php");
+            exit();
+        }
     }
 
     // Check Insurance Agent

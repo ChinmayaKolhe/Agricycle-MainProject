@@ -161,6 +161,7 @@ $approvedClaims = 8;
   </style>
 </head>
 <body>
+<?php include '../insurance_agent/insurance_agent_navbar.php'; ?>
 
 <nav>
   <h4>Agent Panel</h4>

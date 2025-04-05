@@ -113,8 +113,8 @@ $result = mysqli_stmt_get_result($stmt);
           </td>
           <td>
             <?php if ($row['status'] === 'Pending') { ?>
-              <a href="update_policy_status.php?id=<?= $row['id'] ?>&status=Approved" class="btn btn-sm btn-success">Approve</a>
-              <a href="update_policy_status.php?id=<?= $row['id'] ?>&status=Rejected" class="btn btn-sm btn-danger">Reject</a>
+              <button class="btn btn-sm btn-success" onclick="handleAction(<?= $row['id'] ?>, 'Approved')">Approve</button>
+              <button class="btn btn-sm btn-danger" onclick="handleAction(<?= $row['id'] ?>, 'Rejected')">Reject</button>
             <?php } else { ?>
               <span class="text-muted">No actions</span>
             <?php } ?>
@@ -124,6 +124,41 @@ $result = mysqli_stmt_get_result($stmt);
     </tbody>
   </table>
 </div>
+
+<!-- Please Wait Modal -->
+<div class="modal fade" id="pleaseWaitModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content text-center p-4">
+      <div class="spinner-border text-success mb-3" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <h5>Please wait...</h5>
+    </div>
+  </div>
+</div>
+
+<!-- JS Scripts -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+function handleAction(id, status) {
+  const modal = new bootstrap.Modal(document.getElementById('pleaseWaitModal'));
+  modal.show();
+
+  $.ajax({
+    url: 'update_policy_status.php',
+    type: 'POST',
+    data: { id: id, status: status },
+    success: function(response) {
+      setTimeout(() => location.reload(), 1000); // slight delay for smooth UX
+    },
+    error: function() {
+      modal.hide();
+      alert('Something went wrong. Please try again.');
+    }
+  });
+}
+</script>
 
 </body>
 </html>

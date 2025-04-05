@@ -4,11 +4,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'buyer') {
     header("Location: ../auth/login.php");
     exit();
 }
-if (!$buyer['is_verified']) {
-    
-    header("Location: ../auth/verify_aadhaar_buyer.php");
-    exit();
-}
+
 
 include '../config/db_connect.php';
 include '../buyer/header.php';

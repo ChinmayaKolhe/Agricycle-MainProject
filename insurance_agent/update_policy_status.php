@@ -1,38 +1,35 @@
 <?php
 session_start();
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'insurance_agent') {
-    header("Location: ../auth/login.php");
+include '../config/db_connect.php';
+
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'insurance_agent') {
+    http_response_code(403);
+    echo "Unauthorized";
     exit();
 }
 
-include '../config/db_connect.php';
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'], $_POST['status'])) {
+    $id = intval($_POST['id']);
+    $status = $_POST['status'];
 
-if (isset($_GET['id'], $_GET['status'])) {
-    $request_id = intval($_GET['id']);
-    $new_status = $_GET['status'];
-
-    if (!in_array($new_status, ['Approved', 'Rejected'])) {
-        $_SESSION['message'] = "Invalid status.";
-        header("Location: policy_requests.php");
+    if (!in_array($status, ['Approved', 'Rejected'])) {
+        http_response_code(400);
+        echo "Invalid status";
         exit();
     }
 
-    $sql = "UPDATE policy_requests SET status = ? WHERE id = ?";
-    $stmt = mysqli_prepare($conn, $sql);
+    $stmt = mysqli_prepare($conn, "UPDATE policy_requests SET status = ? WHERE id = ?");
     if ($stmt) {
-        mysqli_stmt_bind_param($stmt, 'si', $new_status, $request_id);
-        if (mysqli_stmt_execute($stmt)) {
-            $_SESSION['message'] = "Status updated to $new_status.";
-        } else {
-            $_SESSION['message'] = "Error updating status.";
-        }
-        mysqli_stmt_close($stmt);
+        mysqli_stmt_bind_param($stmt, "si", $status, $id);
+        mysqli_stmt_execute($stmt);
+        echo "Success";
+        exit();
     } else {
-        $_SESSION['message'] = "Query preparation failed.";
+        http_response_code(500);
+        echo "DB error";
+        exit();
     }
-} else {
-    $_SESSION['message'] = "Invalid request parameters.";
 }
-
-header("Location: policy_requests.php");
-exit();
+http_response_code(400);
+echo "Invalid request";
+?>
