@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3308
--- Generation Time: Apr 05, 2025 at 08:50 AM
+-- Generation Time: Apr 05, 2025 at 01:53 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -33,6 +33,13 @@ CREATE TABLE `admins` (
   `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `admins`
+--
+
+INSERT INTO `admins` (`id`, `email`, `password`) VALUES
+(1, 'admin@gmail.com', '$2y$10$DFQQDyoGkhHfPGTBH.DtY.7J0eB/UKtADJGYXeH1fWNd3gM8Vbc/G');
+
 -- --------------------------------------------------------
 
 --
@@ -53,7 +60,8 @@ CREATE TABLE `buyers` (
 --
 
 INSERT INTO `buyers` (`id`, `email`, `password`, `name`, `phone`, `company`) VALUES
-(1, 'chinmayakolhe2005@gmail.com', '$2y$10$k5fbleSAsSACOzKMa.W/bufj73GaSAxRaWbonhVvC16Iic5UVBShm', 'Chinmaya Bhushan Kolhe', '8999316982', 'Code crafters');
+(1, 'chinmayakolhe2005@gmail.com', '$2y$10$k5fbleSAsSACOzKMa.W/bufj73GaSAxRaWbonhVvC16Iic5UVBShm', 'Chinmaya Bhushan Kolhe', '8999316982', 'Code crafters'),
+(2, 'kirti@gmail.com', '$2y$10$BWedCgB0dbprjP7HT3NylODaC16kuo7ETtGhMVPyPOquygz1QpltG', 'Kirti Kolhe', '4567895678', 'Code Fast');
 
 -- --------------------------------------------------------
 
@@ -64,10 +72,18 @@ INSERT INTO `buyers` (`id`, `email`, `password`, `name`, `phone`, `company`) VAL
 CREATE TABLE `community_comments` (
   `id` int(11) NOT NULL,
   `post_id` int(11) NOT NULL,
-  `farmer_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `role` enum('farmer','buyer') NOT NULL,
   `comment` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `community_comments`
+--
+
+INSERT INTO `community_comments` (`id`, `post_id`, `user_id`, `role`, `comment`, `created_at`) VALUES
+(1, 1, 1, 'buyer', 'Use Potash', '2025-04-05 10:36:04');
 
 -- --------------------------------------------------------
 
@@ -77,7 +93,8 @@ CREATE TABLE `community_comments` (
 
 CREATE TABLE `community_posts` (
   `id` int(11) NOT NULL,
-  `farmer_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `role` enum('farmer','buyer') NOT NULL,
   `title` varchar(255) NOT NULL,
   `content` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
@@ -87,9 +104,8 @@ CREATE TABLE `community_posts` (
 -- Dumping data for table `community_posts`
 --
 
-INSERT INTO `community_posts` (`id`, `farmer_id`, `title`, `content`, `created_at`) VALUES
-(1, 2, 'Help for best manure', 'need the best manure for spreading  in my farm.', '2025-04-04 08:38:58'),
-(2, 2, 'help', 'for choosing the best manure', '2025-04-04 08:40:15');
+INSERT INTO `community_posts` (`id`, `user_id`, `role`, `title`, `content`, `created_at`) VALUES
+(1, 1, 'farmer', 'Best Fertilizer', 'Suggest me the best fertilizer\\r\\n', '2025-04-05 10:11:49');
 
 -- --------------------------------------------------------
 
@@ -157,7 +173,8 @@ CREATE TABLE `marketplace_items` (
 --
 
 INSERT INTO `marketplace_items` (`id`, `user_id`, `item_name`, `description`, `price`, `quantity`, `contact_info`, `created_at`) VALUES
-(3, 2, 'Animal Manure', 'animal manure available', 400.00, 4, 'abc@gmail.com', '2025-04-04 08:08:39');
+(3, 2, 'Animal Manure', 'animal manure available', 400.00, 3, 'abc@gmail.com', '2025-04-04 08:08:39'),
+(5, 1, 'pest', 'i want to sell pest', 400.00, 70, '7867895678', '2025-04-05 09:39:18');
 
 -- --------------------------------------------------------
 
@@ -203,7 +220,8 @@ CREATE TABLE `notifications` (
 --
 
 INSERT INTO `notifications` (`id`, `user_id`, `message`, `created_at`, `is_read`) VALUES
-(1, 2, 'Your item has been purchased by Buyer ID: 1', '2025-04-04 13:17:50', 1);
+(1, 2, 'Your item has been purchased by Buyer ID: 1', '2025-04-04 13:17:50', 1),
+(2, 1, 'Your item has been purchased by Buyer ID: 1', '2025-04-05 06:55:55', 1);
 
 -- --------------------------------------------------------
 
@@ -225,7 +243,8 @@ CREATE TABLE `pickup_requests` (
 --
 
 INSERT INTO `pickup_requests` (`id`, `farmer_id`, `waste_type`, `quantity`, `status`, `request_date`) VALUES
-(3, 2, 'Animal Manure', 4, 'Pending', '2025-04-04 08:20:41');
+(3, 2, 'Animal Manure', 4, 'Pending', '2025-04-04 08:20:41'),
+(4, 1, 'Crop Residue', 5, 'Pending', '2025-04-05 11:22:26');
 
 -- --------------------------------------------------------
 
@@ -273,7 +292,11 @@ CREATE TABLE `waste_listings` (
 --
 
 INSERT INTO `waste_listings` (`id`, `user_id`, `waste_type`, `quantity`, `pickup_available`, `created_at`) VALUES
-(1, 2, 'Fruit & Vegetable Waste', 10, 1, '2025-04-04 07:33:12');
+(1, 2, 'Fruit & Vegetable Waste', 10, 1, '2025-04-04 07:33:12'),
+(2, 1, 'Animal Manure', 4, 0, '2025-04-05 07:24:06'),
+(3, 1, 'Fruit & Vegetable Waste', 4, 1, '2025-04-05 11:22:16'),
+(4, 1, 'Plastic Mulch', 10, 0, '2025-04-05 11:25:18'),
+(5, 1, 'Weeds & Grass', 30, 0, '2025-04-05 11:25:26');
 
 -- --------------------------------------------------------
 
@@ -311,15 +334,13 @@ ALTER TABLE `buyers`
 --
 ALTER TABLE `community_comments`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `post_id` (`post_id`),
-  ADD KEY `farmer_id` (`farmer_id`);
+  ADD KEY `post_id` (`post_id`);
 
 --
 -- Indexes for table `community_posts`
 --
 ALTER TABLE `community_posts`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `farmer_id` (`farmer_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `farmers`
@@ -387,25 +408,25 @@ ALTER TABLE `waste_listings`
 -- AUTO_INCREMENT for table `admins`
 --
 ALTER TABLE `admins`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `buyers`
 --
 ALTER TABLE `buyers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `community_comments`
 --
 ALTER TABLE `community_comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `community_posts`
 --
 ALTER TABLE `community_posts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `farmers`
@@ -423,25 +444,25 @@ ALTER TABLE `insurance_agents`
 -- AUTO_INCREMENT for table `marketplace_items`
 --
 ALTER TABLE `marketplace_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `marketplace_orders`
 --
 ALTER TABLE `marketplace_orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `pickup_requests`
 --
 ALTER TABLE `pickup_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -453,7 +474,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `waste_listings`
 --
 ALTER TABLE `waste_listings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
@@ -463,14 +484,7 @@ ALTER TABLE `waste_listings`
 -- Constraints for table `community_comments`
 --
 ALTER TABLE `community_comments`
-  ADD CONSTRAINT `community_comments_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `community_posts` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `community_comments_ibfk_2` FOREIGN KEY (`farmer_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `community_posts`
---
-ALTER TABLE `community_posts`
-  ADD CONSTRAINT `community_posts_ibfk_1` FOREIGN KEY (`farmer_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `community_comments_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `community_posts` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `marketplace_items`

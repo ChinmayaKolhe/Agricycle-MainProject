@@ -12,6 +12,30 @@ $farmer_id = $_SESSION['user_id'];
 // Fetch unread notifications for the farmer
 $notifications_query = "SELECT * FROM notifications WHERE user_id = '$farmer_id' AND is_read = FALSE ORDER BY created_at DESC";
 $result = mysqli_query($conn, $notifications_query);
+
+// Initialize chart data
+// Initialize chart data for agricultural waste types
+$waste_data = [
+    'Crop Residue' => 0,
+    'Animal Manure' => 0,
+    'Fruit and Vegetable Waste' => 0,
+    'Agrochemical Containers' => 0,
+    'Plastic Mulch' => 0,
+    'Spoiled Grain' => 0,
+    'Weeds & Grass' => 0
+];
+
+// Fetch waste quantities grouped by type for this farmer
+$chart_query = "SELECT waste_type, SUM(quantity) as total_quantity FROM waste_listings WHERE farmer_id = $farmer_id GROUP BY waste_type";
+$chart_result = mysqli_query($conn, $chart_query);
+if ($chart_result && mysqli_num_rows($chart_result) > 0) {
+    while ($row = mysqli_fetch_assoc($chart_result)) {
+        $type = $row['waste_type'];
+        if (array_key_exists($type, $waste_data)) {
+            $waste_data[$type] = (int)$row['total_quantity'];
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -22,15 +46,12 @@ $result = mysqli_query($conn, $notifications_query);
     <title>Farmer Dashboard | AgriCycle</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    
 </head>
 <body>
 
 <div class="container mt-4">
     <h2 class="text-success">Welcome, Farmer!</h2>
     <p class="text-muted">Manage your waste, explore the marketplace, and connect with the community.</p>
-
- 
 
     <!-- Dashboard Cards -->
     <div class="row g-4 mt-4">
@@ -98,20 +119,50 @@ const ctx = document.getElementById('wasteChart').getContext('2d');
 new Chart(ctx, {
     type: 'bar',
     data: {
-        labels: ['Plastic', 'Organic', 'Metal', 'E-Waste'],
+        labels: [
+            'Crop Residue',
+            'Animal Manure',
+            'Fruit and Vegetable Waste',
+            'Agrochemical Containers',
+            'Plastic Mulch',
+            'Spoiled Grain',
+            'Weeds & Grass'
+        ],
         datasets: [{
             label: 'Waste in Kg',
-            data: [12, 19, 7, 5],
-            backgroundColor: ['#28a745', '#ffc107', '#007bff', '#dc3545']
+            data: [
+                <?= $waste_data['Crop Residue'] ?>,
+                <?= $waste_data['Animal Manure'] ?>,
+                <?= $waste_data['Fruit and Vegetable Waste'] ?>,
+                <?= $waste_data['Agrochemical Containers'] ?>,
+                <?= $waste_data['Plastic Mulch'] ?>,
+                <?= $waste_data['Spoiled Grain'] ?>,
+                <?= $waste_data['Weeds & Grass'] ?>
+            ],
+            backgroundColor: [
+                '#4caf50',
+                '#795548',
+                '#ff9800',
+                '#9c27b0',
+                '#2196f3',
+                '#f44336',
+                '#8bc34a'
+            ]
         }]
     },
     options: {
-        responsive: true
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
     }
 });
 
+
 // Mark notifications as read using AJAX
-document.getElementById('markAllRead').addEventListener('click', function() {
+document.getElementById('markAllRead')?.addEventListener('click', function() {
     fetch('mark_notifications_read.php', { method: 'POST' })
     .then(response => response.text())
     .then(data => {
