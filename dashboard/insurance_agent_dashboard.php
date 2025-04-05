@@ -6,11 +6,15 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'insurance_agent') {
 }
 
 include '../config/db_connect.php';
+// Fetch pending policy requests
+$pendingRequestsQuery = "SELECT COUNT(*) as total FROM policy_requests WHERE status = 'pending'";
+$pendingRequestsResult = mysqli_query($conn, $pendingRequestsQuery);
+$pendingRequests = mysqli_fetch_assoc($pendingRequestsResult)['total'];
 
-// Example placeholders - replace with actual SQL queries
-$activePolicies = 30;
-$pendingClaims = 12;
-$approvedClaims = 8;
+// Fetch banking policies count
+$bankPoliciesQuery = "SELECT COUNT(*) as total FROM bank_policies";
+$bankPoliciesResult = mysqli_query($conn, $bankPoliciesQuery);
+$bankPolicies = mysqli_fetch_assoc($bankPoliciesResult)['total'];
 ?>
 
 <!DOCTYPE html>
@@ -179,26 +183,22 @@ $approvedClaims = 8;
     <h2>Welcome, Agent</h2>
     <div class="badge bg-success text-white px-3 py-2">AgriCycle Insurance Partner</div>
   </div>
-
   <div class="cards">
-    <div class="card-box">
-      <i class="fa-solid fa-leaf"></i>
-      <div class="card-title">Active Policies</div>
-      <div class="card-count"><?= $activePolicies ?></div>
-      <div class="badge-pulse">Live</div>
-    </div>
+  <div class="card-box">
+    <i class="fa-solid fa-clock"></i>
+    <div class="card-title">Pending Requests</div>
+    <div class="card-count"><?= $pendingRequests ?></div>
+    <div class="badge-pulse">Pending</div>
+  </div>
 
-    <div class="card-box">
-      <i class="fa-solid fa-hourglass-half"></i>
-      <div class="card-title">Pending Claims</div>
-      <div class="card-count"><?= $pendingClaims ?></div>
-    </div>
+  <div class="card-box">
+    <i class="fa-solid fa-building-columns"></i>
+    <div class="card-title">Bank Policies</div>
+    <div class="card-count"><?= $bankPolicies ?></div>
+  </div>
+</div>
 
-    <div class="card-box">
-      <i class="fa-solid fa-circle-check"></i>
-      <div class="card-title">Approved Claims</div>
-      <div class="card-count"><?= $approvedClaims ?></div>
-    </div>
+
     
   </div>
 </div>
