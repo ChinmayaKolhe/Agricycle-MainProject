@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3308
--- Generation Time: Apr 05, 2025 at 01:53 PM
+-- Generation Time: Apr 05, 2025 at 05:04 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -43,6 +43,30 @@ INSERT INTO `admins` (`id`, `email`, `password`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `bank_policies`
+--
+
+CREATE TABLE `bank_policies` (
+  `id` int(11) NOT NULL,
+  `agent_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `pdf_path` varchar(255) DEFAULT NULL,
+  `bank_link` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `bank_policies`
+--
+
+INSERT INTO `bank_policies` (`id`, `agent_id`, `name`, `pdf_path`, `bank_link`, `created_at`) VALUES
+(5, 2, 'Maan Dhan Yojana', 'uploads/policies/policy_67f0d7c6318270.83178529.pdf', 'https://translate.google.com/translate?u=https://maandhan.in/&hl=hi&sl=en&tl=hi&client=srp', '2025-04-05 07:12:06'),
+(6, 2, 'Kisan Credit Card', 'uploads/policies/policy_67f0dadeafbab8.86197405.pdf', 'https://www.myscheme.gov.in/schemes/kcc', '2025-04-05 07:25:18'),
+(7, 1, 'kisan credit card', 'uploads/policies/policy_67f11ad0908880.86541618.pdf', 'https://www.myscheme.gov.in/schemes/kcc', '2025-04-05 11:58:08');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `buyers`
 --
 
@@ -52,16 +76,20 @@ CREATE TABLE `buyers` (
   `password` varchar(255) NOT NULL,
   `name` varchar(100) DEFAULT NULL,
   `phone` varchar(15) DEFAULT NULL,
-  `company` varchar(100) DEFAULT NULL
+  `company` varchar(100) DEFAULT NULL,
+  `aadhaar_path` varchar(255) DEFAULT NULL,
+  `verification_requested` tinyint(4) DEFAULT 0,
+  `is_verified` tinyint(4) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `buyers`
 --
 
-INSERT INTO `buyers` (`id`, `email`, `password`, `name`, `phone`, `company`) VALUES
-(1, 'chinmayakolhe2005@gmail.com', '$2y$10$k5fbleSAsSACOzKMa.W/bufj73GaSAxRaWbonhVvC16Iic5UVBShm', 'Chinmaya Bhushan Kolhe', '8999316982', 'Code crafters'),
-(2, 'kirti@gmail.com', '$2y$10$BWedCgB0dbprjP7HT3NylODaC16kuo7ETtGhMVPyPOquygz1QpltG', 'Kirti Kolhe', '4567895678', 'Code Fast');
+INSERT INTO `buyers` (`id`, `email`, `password`, `name`, `phone`, `company`, `aadhaar_path`, `verification_requested`, `is_verified`) VALUES
+(1, 'chinmayakolhe2005@gmail.com', '$2y$10$k5fbleSAsSACOzKMa.W/bufj73GaSAxRaWbonhVvC16Iic5UVBShm', 'Chinmaya Bhushan Kolhe', '8999316982', 'Code crafters', NULL, 0, 0),
+(2, 'kirti@gmail.com', '$2y$10$BWedCgB0dbprjP7HT3NylODaC16kuo7ETtGhMVPyPOquygz1QpltG', 'Kirti Kolhe', '4567895678', 'Code Fast', NULL, 0, 0),
+(3, 'yamini@gmail.com', '$2y$10$HjtxA.ODlPEMzZ7GQ6Z5qOmXNr.H6r/zXu.Vso51eV0NS2TbKh2Ze', 'Yamini Mahesh Bhole', '7856783423', 'Waste buyers', 'uploads/aadhaar_buyers/buyer_3_AdharCard.pdf', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -119,15 +147,20 @@ CREATE TABLE `farmers` (
   `password` varchar(255) NOT NULL,
   `name` varchar(100) DEFAULT NULL,
   `phone` varchar(15) DEFAULT NULL,
-  `location` varchar(100) DEFAULT NULL
+  `location` varchar(100) DEFAULT NULL,
+  `is_verified` tinyint(1) DEFAULT 0,
+  `aadhaar_path` varchar(255) DEFAULT NULL,
+  `verification_requested` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `farmers`
 --
 
-INSERT INTO `farmers` (`id`, `email`, `password`, `name`, `phone`, `location`) VALUES
-(1, 'bhushan@gmail.com', '$2y$10$b2GFmLBx5OxTQtZMlUhB/.Pg0giL/dWtOKxui6lvrJa8T8EEc8DCy', 'Bhushan Kolhe', '9969897856', 'Pune');
+INSERT INTO `farmers` (`id`, `email`, `password`, `name`, `phone`, `location`, `is_verified`, `aadhaar_path`, `verification_requested`) VALUES
+(1, 'bhushan@gmail.com', '$2y$10$b2GFmLBx5OxTQtZMlUhB/.Pg0giL/dWtOKxui6lvrJa8T8EEc8DCy', 'Bhushan Kolhe', '9969897856', 'Pune', 0, NULL, 0),
+(2, 'chinmaya.kolhe24@pccoepune.org', '$2y$10$Eju2w3lKHDG8ixaReKbCi.3MlJktW4GFX.750xsJysW9fyqje38YG', 'Chinmaya Kolhe', '8999316982', 'Jalgaon', 1, '../uploads/aadhaar/AdharCard.pdf', 0),
+(3, 'lubda@gmail.com', '$2y$10$SDLeesLLTDPXAhLCpaScBukXFGTEYvysFNtWksuT2xbBv2vZfTzju', 'lubdha chaudhari', '7890678978', 'Mumbai', 1, '../uploads/aadhaar/AdharCard.pdf', 0);
 
 -- --------------------------------------------------------
 
@@ -173,8 +206,10 @@ CREATE TABLE `marketplace_items` (
 --
 
 INSERT INTO `marketplace_items` (`id`, `user_id`, `item_name`, `description`, `price`, `quantity`, `contact_info`, `created_at`) VALUES
-(3, 2, 'Animal Manure', 'animal manure available', 400.00, 3, 'abc@gmail.com', '2025-04-04 08:08:39'),
-(5, 1, 'pest', 'i want to sell pest', 400.00, 70, '7867895678', '2025-04-05 09:39:18');
+(3, 2, 'Animal Manure', 'animal manure available', 400.00, 1, 'abc@gmail.com', '2025-04-04 08:08:39'),
+(5, 1, 'pest', 'i want to sell pest', 400.00, 46, '7867895678', '2025-04-05 09:39:18'),
+(6, 1, 'weeds', 'weeds available', 300.00, 9, '7856745111', '2025-04-05 12:38:21'),
+(7, 1, 'Animal Manure', 'vgs', 500.00, 36, '7890678967', '2025-04-05 12:52:57');
 
 -- --------------------------------------------------------
 
@@ -209,19 +244,42 @@ INSERT INTO `marketplace_orders` (`id`, `buyer_id`, `seller_id`, `item_id`, `qua
 
 CREATE TABLE `notifications` (
   `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `message` text DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `is_read` tinyint(1) DEFAULT 0
+  `user_id` int(11) NOT NULL,
+  `message` text NOT NULL,
+  `is_read` tinyint(1) DEFAULT 0,
+  `created_at` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orders`
+--
+
+CREATE TABLE `orders` (
+  `id` int(11) NOT NULL,
+  `buyer_id` int(11) NOT NULL,
+  `item_id` int(11) NOT NULL,
+  `quantity` int(11) DEFAULT 1,
+  `total_price` decimal(10,2) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `notifications`
+-- Dumping data for table `orders`
 --
 
-INSERT INTO `notifications` (`id`, `user_id`, `message`, `created_at`, `is_read`) VALUES
-(1, 2, 'Your item has been purchased by Buyer ID: 1', '2025-04-04 13:17:50', 1),
-(2, 1, 'Your item has been purchased by Buyer ID: 1', '2025-04-05 06:55:55', 1);
+INSERT INTO `orders` (`id`, `buyer_id`, `item_id`, `quantity`, `total_price`, `created_at`) VALUES
+(0, 1, 4, 1, 200.00, '2025-04-05 10:52:58'),
+(0, 1, 3, 1, 400.00, '2025-04-05 11:23:09'),
+(0, 1, 3, 2, 800.00, '2025-04-05 12:16:13'),
+(0, 1, 5, 4, 1600.00, '2025-04-05 12:21:23'),
+(0, 1, 5, 5, 2000.00, '2025-04-05 12:29:18'),
+(0, 1, 5, 5, 2000.00, '2025-04-05 12:35:16'),
+(0, 1, 5, 5, 2000.00, '2025-04-05 12:36:02'),
+(0, 1, 5, 5, 2000.00, '2025-04-05 12:36:10'),
+(0, 1, 6, 1, 300.00, '2025-04-05 12:40:38'),
+(0, 1, 7, 4, 2000.00, '2025-04-05 12:56:03');
 
 -- --------------------------------------------------------
 
@@ -245,6 +303,30 @@ CREATE TABLE `pickup_requests` (
 INSERT INTO `pickup_requests` (`id`, `farmer_id`, `waste_type`, `quantity`, `status`, `request_date`) VALUES
 (3, 2, 'Animal Manure', 4, 'Pending', '2025-04-04 08:20:41'),
 (4, 1, 'Crop Residue', 5, 'Pending', '2025-04-05 11:22:26');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `policy_requests`
+--
+
+CREATE TABLE `policy_requests` (
+  `id` int(11) NOT NULL,
+  `farmer_id` int(11) NOT NULL,
+  `policy_id` int(11) NOT NULL,
+  `agent_id` int(11) NOT NULL,
+  `status` varchar(50) DEFAULT 'Pending',
+  `applied_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `policy_requests`
+--
+
+INSERT INTO `policy_requests` (`id`, `farmer_id`, `policy_id`, `agent_id`, `status`, `applied_at`) VALUES
+(9, 2, 5, 2, 'Pending', '2025-04-05 10:00:44'),
+(10, 2, 6, 2, 'Pending', '2025-04-05 10:04:21'),
+(11, 1, 7, 1, 'Approved', '2025-04-05 11:58:29');
 
 -- --------------------------------------------------------
 
@@ -312,6 +394,13 @@ CREATE TABLE `wishlist` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Dumping data for table `wishlist`
+--
+
+INSERT INTO `wishlist` (`id`, `user_id`, `item_id`, `added_at`) VALUES
+(0, 1, 6, '2025-04-05 12:56:14');
+
+--
 -- Indexes for dumped tables
 --
 
@@ -321,6 +410,12 @@ CREATE TABLE `wishlist` (
 ALTER TABLE `admins`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`);
+
+--
+-- Indexes for table `bank_policies`
+--
+ALTER TABLE `bank_policies`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `buyers`
@@ -376,8 +471,7 @@ ALTER TABLE `marketplace_orders`
 -- Indexes for table `notifications`
 --
 ALTER TABLE `notifications`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `pickup_requests`
@@ -385,6 +479,15 @@ ALTER TABLE `notifications`
 ALTER TABLE `pickup_requests`
   ADD PRIMARY KEY (`id`),
   ADD KEY `farmer_id` (`farmer_id`);
+
+--
+-- Indexes for table `policy_requests`
+--
+ALTER TABLE `policy_requests`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `farmer_id` (`farmer_id`),
+  ADD KEY `policy_id` (`policy_id`),
+  ADD KEY `policy_requests_ibfk_3` (`agent_id`);
 
 --
 -- Indexes for table `users`
@@ -411,10 +514,16 @@ ALTER TABLE `admins`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `bank_policies`
+--
+ALTER TABLE `bank_policies`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
 -- AUTO_INCREMENT for table `buyers`
 --
 ALTER TABLE `buyers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `community_comments`
@@ -432,7 +541,7 @@ ALTER TABLE `community_posts`
 -- AUTO_INCREMENT for table `farmers`
 --
 ALTER TABLE `farmers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `insurance_agents`
@@ -444,7 +553,7 @@ ALTER TABLE `insurance_agents`
 -- AUTO_INCREMENT for table `marketplace_items`
 --
 ALTER TABLE `marketplace_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `marketplace_orders`
@@ -456,13 +565,19 @@ ALTER TABLE `marketplace_orders`
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `pickup_requests`
 --
 ALTER TABLE `pickup_requests`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `policy_requests`
+--
+ALTER TABLE `policy_requests`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -499,12 +614,6 @@ ALTER TABLE `marketplace_orders`
   ADD CONSTRAINT `marketplace_orders_ibfk_1` FOREIGN KEY (`buyer_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `marketplace_orders_ibfk_2` FOREIGN KEY (`seller_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `marketplace_orders_ibfk_3` FOREIGN KEY (`item_id`) REFERENCES `marketplace_items` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `notifications`
---
-ALTER TABLE `notifications`
-  ADD CONSTRAINT `notifications_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `pickup_requests`

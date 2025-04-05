@@ -36,7 +36,7 @@ $farmer = mysqli_fetch_assoc($result);
             <p><strong>Location:</strong> <?= htmlspecialchars($farmer['location']) ?></p>
             
 
-            <a href="edit_profile.php" class="btn btn-outline-success mt-3">
+            <a href="../farmer/edit_profile.php" class="btn btn-outline-success mt-3">
                 <i class="bi bi-pencil-square"></i> Edit Profile
             </a>
         </div>
