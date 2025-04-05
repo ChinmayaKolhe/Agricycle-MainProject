@@ -33,3 +33,20 @@ CREATE TABLE insurance_agents (
     agency VARCHAR(100),
     phone VARCHAR(15)
 );
+CREATE TABLE policy_requests ( 
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    farmer_id INT NOT NULL,
+    policy_id INT NOT NULL,
+    agent_id INT NOT NULL,
+    status VARCHAR(50) DEFAULT 'Pending',
+    applied_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (farmer_id) REFERENCES farmers(id),
+    FOREIGN KEY (policy_id) REFERENCES insurance_policies(id),
+    FOREIGN KEY (agent_id) REFERENCES users(id)
+);
+ALTER TABLE policy_requests
+DROP FOREIGN KEY policy_requests_ibfk_3;
+
+ALTER TABLE policy_requests
+ADD CONSTRAINT policy_requests_ibfk_3 FOREIGN KEY (agent_id) REFERENCES insurance_agents(id);

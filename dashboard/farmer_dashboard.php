@@ -30,29 +30,7 @@ $result = mysqli_query($conn, $notifications_query);
     <h2 class="text-success">Welcome, Farmer!</h2>
     <p class="text-muted">Manage your waste, explore the marketplace, and connect with the community.</p>
 
-    <!-- Notifications Section -->
-    <div class="row mt-3">
-        <div class="col-md-12">
-            <div class="card shadow-lg border-0">
-                <div class="card-body">
-                    <h5 class="card-title"><i class="bi bi-bell-fill text-danger"></i> Notifications</h5>
-                    <?php if (mysqli_num_rows($result) > 0): ?>
-                        <ul class="list-group" id="notificationList">
-                            <?php while ($notification = mysqli_fetch_assoc($result)): ?>
-                                <li class="list-group-item">
-                                    <?= htmlspecialchars($notification['message']) ?>
-                                    <small class="text-muted">[<?= $notification['created_at'] ?>]</small>
-                                </li>
-                            <?php endwhile; ?>
-                        </ul>
-                        <button class="btn btn-danger mt-2" id="markAllRead">Mark All as Read</button>
-                    <?php else: ?>
-                        <p>No new notifications.</p>
-                    <?php endif; ?>
-                </div>
-            </div>
-        </div>
-    </div>
+ 
 
     <!-- Dashboard Cards -->
     <div class="row g-4 mt-4">

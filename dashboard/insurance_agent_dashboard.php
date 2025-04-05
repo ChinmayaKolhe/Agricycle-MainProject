@@ -1,4 +1,4 @@
-<?php 
+<?php  
 session_start();
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'insurance_agent') {
     header("Location: ../auth/login.php");
@@ -7,140 +7,199 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'insurance_agent') {
 
 include '../config/db_connect.php';
 
+// Example placeholders - replace with actual SQL queries
+$activePolicies = 30;
+$pendingClaims = 12;
+$approvedClaims = 8;
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Insurance Agent Dashboard | AgriCycle</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/admin.css">
-    <style>
-        /* Reset body and html */
-        body, html {
-            height: 100%;
-            margin: 0;
-            display: flex;
-            overflow: hidden;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Insurance Agent Dashboard | AgriCycle</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #f0f4f3;
+      color: #2c3e50;
+    }
 
-        /* Sidebar */
-        nav {
-            width: 250px;
-            background: #2c3e50;
-            color: white;
-            height: 100vh;
-            padding: 20px;
-            position: fixed;
-            left: 0;
-            top: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
+    nav {
+      width: 250px;
+      background: linear-gradient(135deg, #14532d, #22c55e);
+      color: white;
+      height: 100vh;
+      padding: 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      box-shadow: 3px 0 8px rgba(0,0,0,0.1);
+    }
 
-        nav h4 {
-            text-align: center;
-        }
+    nav h4 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-weight: bold;
+    }
 
-        nav ul {
-            list-style: none;
-            padding: 0;
-            flex-grow: 1;
-        }
+    nav ul {
+      list-style: none;
+      padding: 0;
+    }
 
-        nav ul li {
-            padding: 12px;
-            border-radius: 5px;
-            margin-bottom: 5px;
-            transition: background 0.3s;
-        }
+    nav ul li {
+      margin-bottom: 20px;
+    }
 
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            display: block;
-        }
+    nav ul li a {
+      text-decoration: none;
+      color: white;
+      font-size: 1rem;
+      padding: 10px;
+      display: block;
+      border-radius: 5px;
+      transition: background 0.3s ease-in-out;
+    }
 
-        nav ul li:hover {
-            background: #34495e;
-        }
+    nav ul li a:hover {
+      background: rgba(255,255,255,0.15);
+    }
 
-        .text-danger {
-            color: #e74c3c !important;
-        }
+    .main-content {
+      margin-left: 250px;
+      padding: 30px;
+    }
 
-        /* Main Content */
-        .main-content {
-            margin-left: 250px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: #f8f9fa;
-            width: calc(100% - 250px);
-            height: 100vh;
-            padding: 20px;
-            text-align: center;
-        }
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+    }
 
-        .row {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            margin-top: 20px;
-        }
+    .dashboard-header h2 {
+      font-weight: 600;
+    }
 
-        .card {
-            width: 220px;
-            padding: 20px;
-            text-align: center;
-            border-radius: 10px;
-            font-size: 1.2rem;
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-        }
+    .cards {
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
 
-        .card h3 {
-            font-size: 2rem;
-        }
-    </style>
+    .card-box {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      padding: 30px;
+      width: 260px;
+      text-align: center;
+      transition: transform 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-box:hover {
+      transform: translateY(-8px);
+    }
+
+    .card-box i {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      color: #16a34a;
+      transition: transform 0.3s ease;
+    }
+
+    .card-box:hover i {
+      transform: scale(1.2);
+    }
+
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .card-count {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #14532d;
+    }
+
+    .badge-pulse {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: #22c55e;
+      color: white;
+      padding: 5px 12px;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(34,197,94, 0.6); }
+      70% { box-shadow: 0 0 0 15px rgba(34,197,94, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(34,197,94, 0); }
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+      }
+
+      .main-content {
+        margin: 0;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<!-- Sidebar -->
 <nav>
-    <h4>Insurance Agent Panel</h4>
-    <ul>
-        <li><a href="insurance_agent_dashboard.php">Dashboard</a></li>
-        <li><a href="manage_claims.php">Manage Claims</a></li>
-        <li><a href="policy_requests.php">Policy Requests</a></li>
-        <li><a href="customer_support.php">Customer Support</a></li>
-        <li><a href="../auth/logout.php" class="text-danger">Logout</a></li>
-    </ul>
+  <h4>Agent Panel</h4>
+  <ul>
+    <li><a href="insurance_agent_dashboard.php"><i class="fa-solid fa-chart-line me-2"></i> Dashboard</a></li>
+    <li><a href="../insurance_agent/policy_request.php"><i class="fa-solid fa-file-circle-plus me-2"></i> Policy Requests</a></li>
+    <li><a href="../insurance_agent/manage_claims.php"><i class="fa-solid fa-clipboard-check me-2"></i> Manage Claims</a></li>
+    <li><a href="customer_support.php"><i class="fa-solid fa-headset me-2"></i> Support</a></li>
+    <li><a href="../auth/logout.php" class="text-danger"><i class="fa-solid fa-right-from-bracket me-2"></i> Logout</a></li>
+  </ul>
 </nav>
 
-<!-- Main Content -->
 <div class="main-content">
-    <h2>Welcome, Insurance Agent</h2>
-    <p>Manage insurance policies, claims, and assist users efficiently.</p>
+  <div class="dashboard-header">
+    <h2>Welcome, Agent</h2>
+    <div class="badge bg-success text-white px-3 py-2">AgriCycle Insurance Partner</div>
+  </div>
 
-    <div class="row">
-        <div class="card bg-info text-white">
-            <h3>30</h3>
-            <p>Active Policies</p>
-        </div>
-        <div class="card bg-warning text-white">
-            <h3>12</h3>
-            <p>Pending Claims</p>
-        </div>
-        <div class="card bg-success text-white">
-            <h3>8</h3>
-            <p>Approved Claims</p>
-        </div>
+  <div class="cards">
+    <div class="card-box">
+      <i class="fa-solid fa-leaf"></i>
+      <div class="card-title">Active Policies</div>
+      <div class="card-count"><?= $activePolicies ?></div>
+      <div class="badge-pulse">Live</div>
     </div>
+
+    <div class="card-box">
+      <i class="fa-solid fa-hourglass-half"></i>
+      <div class="card-title">Pending Claims</div>
+      <div class="card-count"><?= $pendingClaims ?></div>
+    </div>
+
+    <div class="card-box">
+      <i class="fa-solid fa-circle-check"></i>
+      <div class="card-title">Approved Claims</div>
+      <div class="card-count"><?= $approvedClaims ?></div>
+    </div>
+    
+  </div>
 </div>
 
 </body>
