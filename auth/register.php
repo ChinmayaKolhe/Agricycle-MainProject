@@ -139,9 +139,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                 </div>
                 <div class="form-group mb-2" id="farmer-location">
-                    <label>Location:</label>
-                    <input type="text" name="location" class="form-control">
-                </div>
+    <label>Location:</label>
+    <input type="text" id="location" name="location" class="form-control" readonly>
+    <small class="text-muted">Fetching your location...</small>
+</div>
+
                 <div class="form-group mb-2" id="buyer-company">
                     <label>Company:</label>
                     <input type="text" name="company" class="form-control">
@@ -150,6 +152,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label>Agency:</label>
                     <input type="text" name="agency" class="form-control">
                 </div>
+
             </div>
 
             <button type="submit" class="btn btn-success w-100 mt-3">Register</button>
@@ -160,6 +163,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </div>
 
 <script>
+    document.addEventListener('DOMContentLoaded', function () {
+    if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(async function (position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+
+            try {
+                const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
+                const data = await response.json();
+                const address = data.display_name;
+                document.getElementById("location").value = address;
+            } catch (error) {
+                document.getElementById("location").value = "Unable to fetch address.";
+            }
+        }, function (error) {
+            document.getElementById("location").value = "Permission denied or unavailable.";
+        });
+    } else {
+        document.getElementById("location").value = "Geolocation not supported.";
+    }
+});
     const roleSelect = document.getElementById('role');
     const adminCodeField = document.getElementById('admin-code-field');
     const extraFields = document.getElementById('extra-fields');
