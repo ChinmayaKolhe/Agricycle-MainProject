@@ -14,9 +14,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $phone = mysqli_real_escape_string($conn, $_POST['phone']);
     $location = mysqli_real_escape_string($conn, $_POST['location']);
 
-    $photo_path = null;
-
-    if (isset($_FILES['profile_photo']) && $_FILES['profile_photo']['error'] == 0) {
+    $update_query = "UPDATE farmers SET name='$name', email='$email', phone='$phone', location='$location'";
+    
+    // Handle profile photo upload
+    if (isset($_FILES['profile_photo']) && $_FILES['profile_photo']['error'] === 0) {
         $target_dir = "../uploads/farmer_photos/";
         if (!is_dir($target_dir)) {
             mkdir($target_dir, 0777, true);
@@ -24,14 +25,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $filename = "farmer_" . $farmer_id . "_" . basename($_FILES["profile_photo"]["name"]);
         $target_file = $target_dir . $filename;
+
         if (move_uploaded_file($_FILES["profile_photo"]["tmp_name"], $target_file)) {
             $photo_path = "uploads/farmer_photos/" . $filename;
-            mysqli_query($conn, "UPDATE farmers SET profile_photo = '$photo_path' WHERE id = $farmer_id");
+            $update_query .= ", profile_photo='$photo_path'";
         }
     }
 
-    $update = "UPDATE farmers SET name='$name', email='$email', phone='$phone', location='$location' WHERE id = $farmer_id";
-    mysqli_query($conn, $update);
+    $update_query .= " WHERE id = $farmer_id";
+    mysqli_query($conn, $update_query);
+
     header("Location: profile.php");
     exit();
 }
@@ -59,7 +62,7 @@ $farmer = mysqli_fetch_assoc($result);
             <form method="post" enctype="multipart/form-data">
                 <?php if (!empty($farmer['profile_photo'])): ?>
                     <div class="text-center mb-3">
-                        <img src="../<?= $farmer['profile_photo'] ?>" class="rounded-circle" width="120" height="120" alt="Profile Photo">
+                        <img src="../<?= htmlspecialchars($farmer['profile_photo']) ?>" class="rounded-circle shadow" width="120" height="120" alt="Profile Photo" style="object-fit: cover;">
                     </div>
                 <?php endif; ?>
 
@@ -85,7 +88,7 @@ $farmer = mysqli_fetch_assoc($result);
 
                 <div class="mb-3">
                     <label class="form-label">Profile Photo (optional)</label>
-                    <input type="file" name="profile_photo" class="form-control">
+                    <input type="file" name="profile_photo" class="form-control" accept="image/*">
                 </div>
 
                 <div class="text-end">

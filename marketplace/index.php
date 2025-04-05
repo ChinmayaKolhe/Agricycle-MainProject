@@ -2,8 +2,9 @@
 session_start();
 include '../config/db_connect.php';
 include '../marketplace/navbar.php';
-// Fetch marketplace items with quantity > 0 only
-$query = "SELECT id, item_name, description, price, quantity, contact_info, user_id AS seller_id 
+
+// Fetch marketplace items with quantity > 0 and include photo_path
+$query = "SELECT id, item_name, description, price, quantity, contact_info, user_id AS seller_id, photo_path 
           FROM marketplace_items 
           WHERE quantity > 0 
           ORDER BY created_at DESC";
@@ -53,7 +54,12 @@ $items = mysqli_fetch_all($result, MYSQLI_ASSOC);
         <?php else: ?>
             <?php foreach ($items as $item): ?>
                 <div class="col-md-4 mb-4">
-                    <div class="card shadow-sm">
+                    <div class="card shadow-sm h-100">
+                        <?php if (!empty($item['photo_path'])): ?>
+                            <img src="../<?= htmlspecialchars($item['photo_path']) ?>" class="card-img-top" alt="Item Image" style="height: 200px; object-fit: cover;">
+                        <?php else: ?>
+                            <img src="../assets/no-image.png" class="card-img-top" alt="No Image" style="height: 200px; object-fit: cover;">
+                        <?php endif; ?>
                         <div class="card-body">
                             <h5 class="card-title"><?= htmlspecialchars($item['item_name']) ?></h5>
                             <p class="card-text"><strong>Description:</strong> <?= htmlspecialchars($item['description']) ?></p>

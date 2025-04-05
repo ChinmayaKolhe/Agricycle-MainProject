@@ -29,14 +29,25 @@ $farmer = mysqli_fetch_assoc($result);
         <div class="card-header bg-success text-white text-center">
             <h4 class="mb-0"><i class="bi bi-person-circle"></i> Farmer Profile</h4>
         </div>
-        <div class="card-body">
+        <div class="card-body text-center">
+
+            <!-- Profile Photo -->
+            <div class="mb-4">
+                <?php if (!empty($farmer['profile_photo']) && file_exists("../" . $farmer['profile_photo'])): ?>
+                    <img src="../<?= $farmer['profile_photo'] ?>" alt="Profile Photo" class="rounded-circle shadow" width="120" height="120" style="object-fit: cover;">
+                <?php else: ?>
+                    <i class="bi bi-person-circle" style="font-size: 5rem; color: gray;"></i>
+                <?php endif; ?>
+            </div>
+
+            <!-- Profile Info -->
             <p><strong>Name:</strong> <?= htmlspecialchars($farmer['name']) ?></p>
             <p><strong>Email:</strong> <?= htmlspecialchars($farmer['email']) ?></p>
             <p><strong>Phone:</strong> <?= htmlspecialchars($farmer['phone']) ?></p>
             <p><strong>Location:</strong> <?= htmlspecialchars($farmer['location']) ?></p>
-            
 
-            <a href="../farmer/edit_profile.php" class="btn btn-outline-success mt-3">
+            <!-- Edit Button -->
+            <a href="edit_profile.php" class="btn btn-outline-success mt-3">
                 <i class="bi bi-pencil-square"></i> Edit Profile
             </a>
         </div>
