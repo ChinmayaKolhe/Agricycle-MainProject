@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3308
--- Generation Time: Apr 05, 2025 at 05:04 PM
+-- Generation Time: Apr 05, 2025 at 06:36 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -193,6 +193,7 @@ INSERT INTO `insurance_agents` (`id`, `email`, `password`, `name`, `agency`, `ph
 CREATE TABLE `marketplace_items` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
+  `photo_path` varchar(255) DEFAULT NULL,
   `item_name` varchar(255) NOT NULL,
   `description` text NOT NULL,
   `price` decimal(10,2) NOT NULL,
@@ -205,11 +206,13 @@ CREATE TABLE `marketplace_items` (
 -- Dumping data for table `marketplace_items`
 --
 
-INSERT INTO `marketplace_items` (`id`, `user_id`, `item_name`, `description`, `price`, `quantity`, `contact_info`, `created_at`) VALUES
-(3, 2, 'Animal Manure', 'animal manure available', 400.00, 1, 'abc@gmail.com', '2025-04-04 08:08:39'),
-(5, 1, 'pest', 'i want to sell pest', 400.00, 46, '7867895678', '2025-04-05 09:39:18'),
-(6, 1, 'weeds', 'weeds available', 300.00, 9, '7856745111', '2025-04-05 12:38:21'),
-(7, 1, 'Animal Manure', 'vgs', 500.00, 36, '7890678967', '2025-04-05 12:52:57');
+INSERT INTO `marketplace_items` (`id`, `user_id`, `photo_path`, `item_name`, `description`, `price`, `quantity`, `contact_info`, `created_at`) VALUES
+(3, 2, NULL, 'Animal Manure', 'animal manure available', 400.00, 1, 'abc@gmail.com', '2025-04-04 08:08:39'),
+(5, 1, NULL, 'pest', 'i want to sell pest', 400.00, 46, '7867895678', '2025-04-05 09:39:18'),
+(6, 1, NULL, 'weeds', 'weeds available', 300.00, 9, '7856745111', '2025-04-05 12:38:21'),
+(7, 1, NULL, 'Animal Manure', 'vgs', 500.00, 36, '7890678967', '2025-04-05 12:52:57'),
+(8, 2, 'uploads/wasteimg/waste_67f14b15772b5.png', 'pest', 'fhkjsfjdsk', 4545.00, 56, 'abc@gmail.com', '2025-04-05 15:24:05'),
+(9, 2, 'uploads/wasteimg/waste_67f14b5d79fa6.png', 'Animal Manure', 'manure is available', 590.00, 50, 'abc@gmail.com', '2025-04-05 15:25:17');
 
 -- --------------------------------------------------------
 
@@ -553,7 +556,7 @@ ALTER TABLE `insurance_agents`
 -- AUTO_INCREMENT for table `marketplace_items`
 --
 ALTER TABLE `marketplace_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `marketplace_orders`
