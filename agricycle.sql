@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3308
--- Generation Time: Apr 05, 2025 at 08:39 AM
+-- Generation Time: Apr 05, 2025 at 08:50 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -20,6 +20,40 @@ SET time_zone = "+00:00";
 --
 -- Database: `agricycle`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admins`
+--
+
+CREATE TABLE `admins` (
+  `id` int(11) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `buyers`
+--
+
+CREATE TABLE `buyers` (
+  `id` int(11) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `phone` varchar(15) DEFAULT NULL,
+  `company` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `buyers`
+--
+
+INSERT INTO `buyers` (`id`, `email`, `password`, `name`, `phone`, `company`) VALUES
+(1, 'chinmayakolhe2005@gmail.com', '$2y$10$k5fbleSAsSACOzKMa.W/bufj73GaSAxRaWbonhVvC16Iic5UVBShm', 'Chinmaya Bhushan Kolhe', '8999316982', 'Code crafters');
 
 -- --------------------------------------------------------
 
@@ -60,6 +94,50 @@ INSERT INTO `community_posts` (`id`, `farmer_id`, `title`, `content`, `created_a
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `farmers`
+--
+
+CREATE TABLE `farmers` (
+  `id` int(11) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `phone` varchar(15) DEFAULT NULL,
+  `location` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `farmers`
+--
+
+INSERT INTO `farmers` (`id`, `email`, `password`, `name`, `phone`, `location`) VALUES
+(1, 'bhushan@gmail.com', '$2y$10$b2GFmLBx5OxTQtZMlUhB/.Pg0giL/dWtOKxui6lvrJa8T8EEc8DCy', 'Bhushan Kolhe', '9969897856', 'Pune');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `insurance_agents`
+--
+
+CREATE TABLE `insurance_agents` (
+  `id` int(11) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `agency` varchar(100) DEFAULT NULL,
+  `phone` varchar(15) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `insurance_agents`
+--
+
+INSERT INTO `insurance_agents` (`id`, `email`, `password`, `name`, `agency`, `phone`) VALUES
+(1, 'rudrakolhe@gmail.com', '$2y$10$VM3SGhY9LArwSI2atbzBqerFUNgky4Dv3vZ07OkUXo/7bbROM3Du2', 'Rudra Bhushan Kolhe', 'RBL', '6789567845');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `marketplace_items`
 --
 
@@ -80,6 +158,52 @@ CREATE TABLE `marketplace_items` (
 
 INSERT INTO `marketplace_items` (`id`, `user_id`, `item_name`, `description`, `price`, `quantity`, `contact_info`, `created_at`) VALUES
 (3, 2, 'Animal Manure', 'animal manure available', 400.00, 4, 'abc@gmail.com', '2025-04-04 08:08:39');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `marketplace_orders`
+--
+
+CREATE TABLE `marketplace_orders` (
+  `id` int(11) NOT NULL,
+  `buyer_id` int(11) NOT NULL,
+  `seller_id` int(11) NOT NULL,
+  `item_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `total_price` decimal(10,2) NOT NULL,
+  `status` enum('Pending','Completed','Cancelled') DEFAULT 'Pending',
+  `order_date` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `marketplace_orders`
+--
+
+INSERT INTO `marketplace_orders` (`id`, `buyer_id`, `seller_id`, `item_id`, `quantity`, `total_price`, `status`, `order_date`) VALUES
+(3, 1, 2, 3, 0, 0.00, 'Pending', '2025-04-04 12:58:25'),
+(4, 1, 2, 3, 0, 0.00, 'Pending', '2025-04-04 13:17:50');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `notifications`
+--
+
+CREATE TABLE `notifications` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `message` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `is_read` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `notifications`
+--
+
+INSERT INTO `notifications` (`id`, `user_id`, `message`, `created_at`, `is_read`) VALUES
+(1, 2, 'Your item has been purchased by Buyer ID: 1', '2025-04-04 13:17:50', 1);
 
 -- --------------------------------------------------------
 
@@ -151,9 +275,36 @@ CREATE TABLE `waste_listings` (
 INSERT INTO `waste_listings` (`id`, `user_id`, `waste_type`, `quantity`, `pickup_available`, `created_at`) VALUES
 (1, 2, 'Fruit & Vegetable Waste', 10, 1, '2025-04-04 07:33:12');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `wishlist`
+--
+
+CREATE TABLE `wishlist` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `item_id` int(11) NOT NULL,
+  `added_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `admins`
+--
+ALTER TABLE `admins`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
+
+--
+-- Indexes for table `buyers`
+--
+ALTER TABLE `buyers`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- Indexes for table `community_comments`
@@ -171,9 +322,39 @@ ALTER TABLE `community_posts`
   ADD KEY `farmer_id` (`farmer_id`);
 
 --
+-- Indexes for table `farmers`
+--
+ALTER TABLE `farmers`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
+
+--
+-- Indexes for table `insurance_agents`
+--
+ALTER TABLE `insurance_agents`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
+
+--
 -- Indexes for table `marketplace_items`
 --
 ALTER TABLE `marketplace_items`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `marketplace_orders`
+--
+ALTER TABLE `marketplace_orders`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `buyer_id` (`buyer_id`),
+  ADD KEY `seller_id` (`seller_id`),
+  ADD KEY `item_id` (`item_id`);
+
+--
+-- Indexes for table `notifications`
+--
+ALTER TABLE `notifications`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`);
 
@@ -203,6 +384,18 @@ ALTER TABLE `waste_listings`
 --
 
 --
+-- AUTO_INCREMENT for table `admins`
+--
+ALTER TABLE `admins`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `buyers`
+--
+ALTER TABLE `buyers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `community_comments`
 --
 ALTER TABLE `community_comments`
@@ -215,10 +408,34 @@ ALTER TABLE `community_posts`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `farmers`
+--
+ALTER TABLE `farmers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `insurance_agents`
+--
+ALTER TABLE `insurance_agents`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `marketplace_items`
 --
 ALTER TABLE `marketplace_items`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `marketplace_orders`
+--
+ALTER TABLE `marketplace_orders`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `notifications`
+--
+ALTER TABLE `notifications`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `pickup_requests`
@@ -260,6 +477,20 @@ ALTER TABLE `community_posts`
 --
 ALTER TABLE `marketplace_items`
   ADD CONSTRAINT `marketplace_items_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `marketplace_orders`
+--
+ALTER TABLE `marketplace_orders`
+  ADD CONSTRAINT `marketplace_orders_ibfk_1` FOREIGN KEY (`buyer_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `marketplace_orders_ibfk_2` FOREIGN KEY (`seller_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `marketplace_orders_ibfk_3` FOREIGN KEY (`item_id`) REFERENCES `marketplace_items` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `notifications`
+--
+ALTER TABLE `notifications`
+  ADD CONSTRAINT `notifications_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `pickup_requests`
