@@ -25,24 +25,7 @@ $items = mysqli_fetch_all($result, MYSQLI_ASSOC);
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-success">
-  <div class="container">
-    <a class="navbar-brand" href="index.php">AgriCycle</a>
-    <div class="collapse navbar-collapse justify-content-end">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-            <a class="nav-link" href="../dashboard/buyer_dashboard.php">🏠 Home</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link active" href="../orders.php">📦 My Orders</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-danger" href="auth/logout.php">🚪 Logout</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
+
 
 <!-- ✅ Marketplace Section -->
 <div class="container mt-4">

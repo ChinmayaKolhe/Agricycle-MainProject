@@ -73,9 +73,7 @@ if (!isset($_SESSION['user_id']) || !in_array($_SESSION['role'], ['buyer', 'farm
                 <li class="nav-item">
                     <a class="nav-link" href="../orders.php"><i class="bi bi-bag"></i> Orders</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="../chat.php"><i class="bi bi-chat-dots"></i> Chat</a>
-                </li>
+            
                 <li class="nav-item">
                     <a class="nav-link text-danger" href="../auth/logout.php"><i class="bi bi-box-arrow-right"></i> Logout</a>
                 </li>

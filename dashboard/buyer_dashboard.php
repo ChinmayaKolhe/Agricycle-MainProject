@@ -76,33 +76,44 @@ include '../buyer/header.php';
                 </div>
             </div>
         </div>
+<!-- Awareness Section -->
+<div class="mt-5">
+    <h4 class="text-success">♻️ Did You Know?</h4>
+    <div class="alert alert-info shadow-sm mt-3">
+        <strong>1. Recycling one aluminum can</strong> saves enough energy to run a TV for 3 hours!
+    </div>
+    <div class="alert alert-warning shadow-sm">
+        <strong>2. E-waste</strong> contains valuable metals like gold and copper—recycling helps recover these.
+    </div>
+    <div class="alert alert-success shadow-sm">
+        <strong>3. Organic waste</strong> can be composted to enrich soil and reduce landfill use.
+    </div>
+    <div class="alert alert-primary shadow-sm">
+        <strong>4. Your purchases</strong> from AgriCycle directly support sustainable farming and reduce environmental impact.
+    </div>
+</div>
+<!-- Buyer Tips -->
+<div class="mt-5">
+    <h4 class="text-dark">💡 Buyer Tips</h4>
+    <ul class="list-group">
+        <li class="list-group-item">Check farmer verification before purchasing high-value items.</li>
+        <li class="list-group-item">Use the wishlist to monitor prices before buying.</li>
+        <li class="list-group-item">Leave reviews to help the community and boost trusted sellers.</li>
+        <li class="list-group-item">Try to bundle items to save on delivery/pickup charges.</li>
+    </ul>
+</div>
+<!-- Help Section -->
+<div class="mt-5 text-center">
+    <h5 class="text-muted">Need assistance?</h5>
+    <p>Chat with our Buyer Chatbot </p>
+    <button onclick="window.location.href='../buyer/chatbot.php'" class="btn btn-info btn-sm mt-2">Open Buyer Chatbot</button>
+
+</div>
+
 
 
     </div>
 
-    <!-- Insights -->
-    <div class="row mt-4">
-        <!-- Purchase Stats -->
-        <div class="col-md-6">
-            <div class="card shadow-lg border-0">
-                <div class="card-body">
-                    <h5>Purchase Statistics</h5>
-                    <canvas id="buyerChart"></canvas>
-                </div>
-            </div>
-        </div>
-
-        <!-- Recommendations -->
-        <div class="col-md-6">
-            <div class="card shadow-lg border-0">
-                <div class="card-body">
-                    <h5>Personalized Recommendations</h5>
-                    <p>Suggested waste materials based on your purchases.</p>
-                    <a href="../recommendations.php" class="btn btn-outline-info">View Recommendations</a>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 
 
