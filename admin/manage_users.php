@@ -16,6 +16,39 @@ include '../config/db_connect.php';
     <link rel="stylesheet" href="../assets/css/modern-admin.css">
 </head>
 <body>
+<nav class="navbar navbar-expand-lg bg-white shadow-sm rounded mb-4 px-4 py-3">
+  <div class="container-fluid">
+    <a class="navbar-brand text-success fw-bold" href="#">AgriCycle Admin Panel</a>
+    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+      <li class="nav-item me-3">
+        <a class="nav-link" href="../dashboard/admin_dashboard.php">
+          <i class="fa-solid fa-chart-line me-1"></i> Dashboard
+        </a>
+      </li>
+      <li class="nav-item me-3">
+        <a class="nav-link" href="../admin/manage_users.php">
+          <i class="fa-solid fa-file-circle-plus me-1"></i> Manage Users
+        </a>
+      </li>
+      <li class="nav-item me-3">
+        <a class="nav-link" href="../admin/verify_farmers.php">
+          <i class="fa-solid fa-file-shield me-1"></i> Verify Farmers
+        </a>
+      </li>
+      <li class="nav-item me-3">
+        <a class="nav-link" href="../admin/verify_buyers.php">
+          <i class="fa-solid fa-file-shield me-1"></i> Verify Buyers
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-danger" href="../auth/logout.php">
+          <i class="fa-solid fa-right-from-bracket me-1"></i> Logout
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
 <div class="container-fluid py-4">
     <h2 class="text-center text-success mb-4">Manage Users - AgriCycle 🌱</h2>
 

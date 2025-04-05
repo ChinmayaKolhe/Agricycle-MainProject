@@ -63,7 +63,7 @@ include '../config/db_connect.php';
     <ul class="nav flex-column">
       <li class="nav-item"><a href="admin_dashboard.php" class="nav-link">Dashboard</a></li>
       <li class="nav-item"><a href="../admin/manage_users.php" class="nav-link">Manage Users</a></li>
-      <li class="nav-item"><a href="../admin/view_requests.php" class="nav-link">Loan/Insurance Requests</a></li>
+      
       <li class="nav-item">
   <a href="../admin/verify_farmers.php" class="nav-link">Verify Farmers</a>
 </li>
@@ -71,7 +71,7 @@ include '../config/db_connect.php';
   <a href="../admin/verify_buyers.php" class="nav-link">Verify Buyers</a>
 </li>
 
-      <li class="nav-item"><a href="../admin/settings.php" class="nav-link">Settings</a></li>
+      
       <li class="nav-item"><a href="../auth/logout.php" class="nav-link text-danger">Logout</a></li>
     </ul>
   </nav>
