@@ -356,7 +356,7 @@ $items = mysqli_fetch_all($result, MYSQLI_ASSOC);
                     <h3>No Items Available</h3>
                     <p>There are currently no items listed in the marketplace. Check back later or consider listing your own items.</p>
                     <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'farmer'): ?>
-                        <a href="add_item.php" class="btn btn-success btn-lg">List Your First Item</a>
+                        <a href="../marketplace/add_item.php" class="btn btn-success btn-lg">List Your First Item</a>
                     <?php endif; ?>
                 </div>
             </div>

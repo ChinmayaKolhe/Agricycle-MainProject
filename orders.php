@@ -380,7 +380,7 @@ $orders = mysqli_fetch_all($result, MYSQLI_ASSOC);
             <?php foreach ($orders as $order): ?>
                 <div class="order-card animate__animated animate__fadeInUp">
                     <div class="order-header">
-                        <span class="order-id">Order #<?= $order['order_id'] ?></span>
+                        <span class="order-id">Ordered</span>
                         <span class="order-date"><?= date('F j, Y \a\t g:i A', strtotime($order['created_at'])) ?></span>
                     </div>
                     <div class="order-body">
