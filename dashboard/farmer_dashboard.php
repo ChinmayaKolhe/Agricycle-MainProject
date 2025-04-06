@@ -24,7 +24,7 @@ $waste_data = [
     'Weeds & Grass' => 0
 ];
 
-$chart_query = "SELECT waste_type, SUM(quantity) as total_quantity FROM waste_listings WHERE farmer_id = $farmer_id GROUP BY waste_type";
+$chart_query = "SELECT waste_type, SUM(quantity) as total_quantity FROM waste_listings WHERE user_id = $farmer_id GROUP BY waste_type";
 $chart_result = mysqli_query($conn, $chart_query);
 if ($chart_result && mysqli_num_rows($chart_result) > 0) {
     while ($row = mysqli_fetch_assoc($chart_result)) {
